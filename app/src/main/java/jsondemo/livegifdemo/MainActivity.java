@@ -16,7 +16,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mMessageQueue = new MessageQueue(getApplicationContext(), (RelativeLayout) findViewById(R.id.ll_root_viwe));
+
     }
 
     public void onClickSend(View view) {

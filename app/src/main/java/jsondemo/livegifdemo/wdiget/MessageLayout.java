@@ -21,26 +21,16 @@ import jsondemo.livegifdemo.R;
  * Created by Xiao_Bailong on 2016/9/6 0006.
  */
 public class MessageLayout {
+    private String TAG = this.getClass().getSimpleName();
     public ImageView mImgUserIco;
     public TextView tvName;
 
     private TranslateAnimation inAnim;//礼物View出现的动画
     private AlphaAnimation outAnim;//礼物View消失的动画
 
-    public static List<View> mRecycleViews = new ArrayList<>(); //回收的View
+    public static List<MessageLayout> mRecycleViews = new ArrayList<>(); //回收的View
 
-    public View mInflate;
-
-    public MessageLayout(Context context) {
-
-        inAnim = (TranslateAnimation) AnimationUtils.loadAnimation(context, R.anim.live_red_in);
-        outAnim = (AlphaAnimation) AnimationUtils.loadAnimation(context, R.anim.live_red_out);
-        mInflate = LayoutInflater.from(context).inflate(R.layout.gift_item, null, false);
-
-        mImgUserIco = (ImageView) mInflate.findViewById(R.id.img_user_ico);
-        tvName = (TextView) mInflate.findViewById(R.id.tv_name);
-
-    }
+    public View mShowMessageLayout; //显示红包消息的布局
 
     public interface onAnimationListener {
         void onAnimationEnd(MessageLayout messageLayout);
@@ -53,8 +43,53 @@ public class MessageLayout {
     }
 
 
+    public MessageLayout(Context context) {
+
+        inAnim = (TranslateAnimation) AnimationUtils.loadAnimation(context, R.anim.live_red_in);
+        outAnim = (AlphaAnimation) AnimationUtils.loadAnimation(context, R.anim.live_red_out);
+        mShowMessageLayout = LayoutInflater.from(context).inflate(R.layout.gift_item, null, false);
+
+        mImgUserIco = (ImageView) mShowMessageLayout.findViewById(R.id.img_user_ico);
+        tvName = (TextView) mShowMessageLayout.findViewById(R.id.tv_name);
+
+        mShowMessageLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                startView();
+            }
+        });
+
+    }
+
+    public static MessageLayout buildMessageLayout(Context context) {
+
+        MessageLayout messageLayout = getMessageLayout();
+
+        if (messageLayout == null) {
+            messageLayout = new MessageLayout(context);
+            mRecycleViews.add(messageLayout);
+        }
+
+        return messageLayout;
+    }
+
+    /**
+     * 获取到回收的控件
+     */
+    private static MessageLayout getMessageLayout() {
+
+        for (MessageLayout layout : mRecycleViews) {
+            if (layout.mShowMessageLayout.getParent() == null) {
+                return layout;
+            }
+        }
+
+        return null;
+    }
+
+
     public void startView() {
-        mInflate.startAnimation(inAnim);//播放礼物View出现的动
+        mShowMessageLayout.startAnimation(inAnim);//播放礼物View出现的动
 
         inAnim.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -63,18 +98,17 @@ public class MessageLayout {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                ViewGroup parent = (ViewGroup) mInflate.getParent();
+                ViewGroup parent = (ViewGroup) mShowMessageLayout.getParent();
 
                 if (parent != null) {
-                    parent.removeView(mInflate);
-                    mRecycleViews.add(mInflate);
+                    parent.removeView(mShowMessageLayout);
                 }
 
                 if (mOnAnimationListener != null) {
                     mOnAnimationListener.onAnimationEnd(MessageLayout.this);
                 }
 
-                mInflate.startAnimation(outAnim);//播放礼物View出现的动
+                mShowMessageLayout.startAnimation(outAnim);//播放礼物View出现的动
             }
 
             @Override

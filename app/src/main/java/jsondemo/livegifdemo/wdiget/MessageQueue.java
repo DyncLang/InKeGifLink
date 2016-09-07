@@ -50,10 +50,10 @@ public class MessageQueue implements MessageLayout.onAnimationListener {
 
     public MessageLayout buiidMessagLayout() {
         //回收
-        MessageLayout messageLayout = new MessageLayout(mContext);
+        MessageLayout messageLayout = MessageLayout.buildMessageLayout(mContext);
 
         messageLayout.setonAnimationListener(this);
-        messageLayout.mInflate.setOnClickListener(new View.OnClickListener() {
+        messageLayout.mShowMessageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, "点击", Toast.LENGTH_SHORT).show();
@@ -80,9 +80,9 @@ public class MessageQueue implements MessageLayout.onAnimationListener {
 
         } else {
 
-            flMessage.removeView(messageLayout.mInflate);
-            flMessage.addView(messageLayout.mInflate);
-            messageLayout.startView();
+            flMessage.removeView(messageLayout.mShowMessageLayout);
+            flMessage.addView(messageLayout.mShowMessageLayout);
+             messageLayout.startView();
 
         }
     }
