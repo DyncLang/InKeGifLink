@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +25,7 @@ public class MessageLayout {
     public ImageView mImgUserIco;
     public TextView tvName;
 
-    private TranslateAnimation inAnim;//礼物View出现的动画
+    private AnimationSet inAnim;//礼物View出现的动画
     private AlphaAnimation outAnim;//礼物View消失的动画
 
     public static List<MessageLayout> mRecycleViews = new ArrayList<>(); //回收的View
@@ -45,7 +45,7 @@ public class MessageLayout {
 
     public MessageLayout(Context context) {
 
-        inAnim = (TranslateAnimation) AnimationUtils.loadAnimation(context, R.anim.live_red_in);
+        inAnim = (AnimationSet) AnimationUtils.loadAnimation(context, R.anim.live_red_in);
         outAnim = (AlphaAnimation) AnimationUtils.loadAnimation(context, R.anim.live_red_out);
         mShowMessageLayout = LayoutInflater.from(context).inflate(R.layout.gift_item, null, false);
 
