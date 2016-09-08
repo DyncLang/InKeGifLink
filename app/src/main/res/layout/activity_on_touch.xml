@@ -10,16 +10,27 @@
 
 
     <ImageView
+        android:id="@+id/img_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/ontouch1"
-
         />
 
     <ImageView
+
+        android:id="@+id/img_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/ontouch2"
+
+        />
+
+
+    <ImageView
+        android:id="@+id/img_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ontouch1"
 
         />
 </jsondemo.livegifdemo.wdiget.OnTouchChangeViewLayout>
